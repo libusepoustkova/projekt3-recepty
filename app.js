@@ -20,11 +20,10 @@ recept-hodnoceni, recept-nazev, recept-popis.
 
 const recepty = document.querySelector('#recepty');
 const recept_detail = document.querySelector('#recept_detail_obrazek');
-console.log(recepty)
 
-zobrazRecepty();
+zobrazRecepty(seznam_recepty);
 
-function zobrazRecepty() {
+function zobrazRecepty(pole_recepty) {
 
 
     for (let i = 0; i < pole_recepty.length; i++) {
@@ -46,18 +45,33 @@ function zobrazRecepty() {
         recept_nadpis.textContent = pole_recepty[i].nadpis;
 
 
+        recepty.appendChild(recept);
+        recept.appendChild(recept_obrazek);
+        recept_obrazek.appendChild(obrazek);
+        recept.appendChild(recept_info);
+        recept_info.appendChild(recept_nadpis);
 
-        recepty.appendChild(recept)
-        recept.appendChild(recept_obrazek)
-        recept_obrazek.appendChild(obrazek)
-        recept.appendChild(recept_info)
-        recept_info.appendChild(recept_nadpis)
-        console.log(recept)
     }
 }
 
 function klikNaRecept() {
-    let mujRecept = event.target.dataset. mujRecept;
+    let mujRecept = event.target.dataset.mujRecept;
 
     console.log(mujRecept)
+}
+
+function partOfString(ret, cast) {
+    console.log(ret, cast, ret.includes(cast))
+    return ret.includes(cast)
+}
+
+function Hledej() {
+    let part = document.getElementById("hledat").value;
+
+    let filter_recepty = seznam_recepty.filter(el => partOfString(el.nadpis, part))
+    console.log(filter_recepty);
+    recepty.innerHTML = '';
+    zobrazRecepty(filter_recepty)
+    return
+
 }
