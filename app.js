@@ -86,16 +86,32 @@ function compare( a, b ) {
 
 function Serad() {
     let podle = document.getElementById("razeni").value
-    console.log(podle)
     recepty.innerHTML = '';
-
+     console.log(podle)
     if (podle == 1) {
-    serazene_recepty=seznam_recepty.sort(compare);
+    let serazene_recepty=seznam_recepty.sort(compare);
     serazene_recepty.reverse()
     }
     else if (podle == 2) {
-    serazene_recepty=seznam_recepty.sort(compare);
+    let serazene_recepty=seznam_recepty.sort(compare);
     }
-    zobrazRecepty(serazene_recepty)
+    else {
+    let serazene_recepty = seznam_recepty;
+    }
+    zobrazRecepty(serazene_recepty);
 }
 
+
+function checkStitek(kategorie, stitek) {
+  return kategorie == stitek;
+}
+
+function VyberKategorie() {
+    let kat = document.getElementById("kategorie").value
+    console.log(kat)
+
+    let vybrane_recepty = seznam_recepty.filter(el => checkStitek(kat, el.kategorie));
+
+    recepty.innerHTML = '';
+    zobrazRecepty(vybrane_recepty);
+}
