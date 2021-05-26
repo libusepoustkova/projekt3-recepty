@@ -7,7 +7,7 @@ HTML vzor, jak vygenerovaný recept vypadá, je zakomentovaný v index.html.
 2) Doplň hledání - v hlavičce odkomentuj pole pro hledání. Pri kliknutí na tlačítko Hledat
 by se měl seznam receptů vyfiltrovat podle hledaného slova.
 
-3) Doplň filtrovanání receptů podle kategorie.
+3) Doplň filtrovanání receptů podle kategorie. ON CHANGE, POUŽIT FUNKCI SORT
 
 4) Doplň řazení receptů podle hodnocení.
 
@@ -33,14 +33,14 @@ function zobrazRecepty(pole_recepty) {
         recept.onclick = klikNaRecept;
 
         let recept_obrazek = document.createElement('div');
-        recept_obrazek.className = 'recept_obrazek';
+        recept_obrazek.className = 'recept-obrazek';
         let obrazek = document.createElement('img');
         obrazek.src = (pole_recepty[i].img).slice(0,(pole_recepty[i].img).indexOf('?'));
 
         obrazek.alt = 'Obrazek'
 
         let recept_info = document.createElement('div');
-        recept_info.className = 'recept_info'
+        recept_info.className = 'recept-info'
         let recept_nadpis = document.createElement('h3');
         recept_nadpis.textContent = pole_recepty[i].nadpis;
 
@@ -67,11 +67,35 @@ function partOfString(ret, cast) {
 
 function Hledej() {
     let part = document.getElementById("hledat").value;
-
-    let filter_recepty = seznam_recepty.filter(el => partOfString(el.nadpis, part))
-    console.log(filter_recepty);
+    let filter_recepty = seznam_recepty.filter(el => partOfString(el.nadpis.toLowerCase(), part.toLowerCase()))
     recepty.innerHTML = '';
     zobrazRecepty(filter_recepty)
     return
 
 }
+
+function compare( a, b ) {
+      if ( a.hodnoceni < b.hodnoceni ){
+        return -1;
+      }
+      if ( a.hodnoceni> b.hodnoceni ){
+        return 1;
+      }
+      return 0;
+    }
+
+function Serad() {
+    let podle = document.getElementById("razeni").value
+    console.log(podle)
+    recepty.innerHTML = '';
+
+    if (podle == 1) {
+    serazene_recepty=seznam_recepty.sort(compare);
+    serazene_recepty.reverse()
+    }
+    else if (podle == 2) {
+    serazene_recepty=seznam_recepty.sort(compare);
+    }
+    zobrazRecepty(serazene_recepty)
+}
+
