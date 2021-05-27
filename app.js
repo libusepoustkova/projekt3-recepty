@@ -18,9 +18,10 @@ recept-hodnoceni, recept-nazev, recept-popis.
 6) Poslední vybraný recept ulož do Local Storage, aby se při novém otevření aplikace načetl.
 */
 
-const recepty = document.querySelector('#recepty');
+const receptyElement = document.querySelector('#recepty');
 const recept_detail = document.querySelector('#recept_detail_obrazek');
 
+//let seznam_recepty = ''
 zobrazRecepty(seznam_recepty);
 
 function zobrazRecepty(pole_recepty) {
@@ -30,8 +31,19 @@ function zobrazRecepty(pole_recepty) {
         //console.log(pole_recepty[i].nadpis)
         let recept = document.createElement('div');
         recept.className = 'recept';
-        recept.onclick = klikNaRecept;
+        recept.dataset.mujRecept = i;
+        //recept.onclick =  klikNaRecept;
+        //recept.addEventListener('click', zobrazDetailRecept(pole_recepty[i]));
+         recept.onclick = function (event) {
+                                               let obr = document.getElementById("recept-foto");
+                                                   obr.src = pole_recepty[i].img;
+                                                   obr.alt = 'Obrazek'
 
+                                                   document.getElementById("recept-kategorie").innerHTML =pole_recepty[i].kategorie;
+                                                   document.getElementById("recept-hodnoceni").innerHTML = pole_recepty[i].hodnoceni;
+                                                   document.getElementById("recept-nazev").innerHTML = pole_recepty[i].nadpis;
+                                                   document.getElementById("recept-popis").innerHTML = pole_recepty[i].popis;
+                                              }
         let recept_obrazek = document.createElement('div');
         recept_obrazek.className = 'recept-obrazek';
         let obrazek = document.createElement('img');
@@ -45,7 +57,7 @@ function zobrazRecepty(pole_recepty) {
         recept_nadpis.textContent = pole_recepty[i].nadpis;
 
 
-        recepty.appendChild(recept);
+        receptyElement.appendChild(recept);
         recept.appendChild(recept_obrazek);
         recept_obrazek.appendChild(obrazek);
         recept.appendChild(recept_info);
@@ -56,7 +68,6 @@ function zobrazRecepty(pole_recepty) {
 
 function klikNaRecept() {
     let mujRecept = event.target.dataset.mujRecept;
-
     console.log(mujRecept)
 }
 
@@ -107,7 +118,7 @@ function checkStitek(kategorie, stitek) {
 }
 
 function VyberKategorie() {
-    let kat = document.getElementById("kategorie").value
+    let kat = document.getElementById("kategorie").value;
     console.log(kat)
 
     let vybrane_recepty = seznam_recepty.filter(el => checkStitek(kat, el.kategorie));
@@ -115,3 +126,4 @@ function VyberKategorie() {
     recepty.innerHTML = '';
     zobrazRecepty(vybrane_recepty);
 }
+
